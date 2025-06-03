@@ -1,0 +1,34 @@
+---
+config:
+      theme: redux
+---
+flowchart TD
+A[Inicio: Cliente o comercial inicia compra] --> Z{Requiere muestra previa?}
+Z -->|Sí| SM[Envío de muestra al cliente] --> B
+Z -->|No| B{Tipo de compra}
+B -->|Compra directa| C[Generación de orden directa]
+B -->|Compra a futuro| D[Generación de contrato]
+D --> E[Creación de orden en cola]
+
+E --> F[Esperar contenedor disponible]
+F --> G[Orden de contenedor creada]
+
+G --> H{Hay producto en bodega?}
+H -->|Sí| I[Asignación de producto al contenedor]
+H -->|No| J[Creación de orden de compra]
+
+J --> K[Recepción de muestra]
+K --> L[Trilla procesamiento]
+L --> M[Control de calidad]
+M --> N[Liquidación y pago]
+N --> O[Ingreso de producto a bodega]
+
+O --> I
+
+I --> P[Actualización de estado del producto]
+P --> Q[Flujo de exportación]
+Q --> R[Puerto origen → En tránsito → Destino]
+
+R --> S[Arribo a bodega destino o courier]
+
+S --> T[Cliente ve su estado en portal]
